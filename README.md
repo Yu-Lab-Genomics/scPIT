@@ -36,4 +36,4 @@ scPIT is trained by running `python ./01.model/main.py  path_to_Pre-Processing.p
 All hyperparameters for the training process have been pre-defined in the source code, and the training requires only the file path of the pre-processed dataset as input.  
 
 ## Interpretation
-The scPIT interpretability analysis utilizes the DeepLIFT method based on backpropagation, the source code is provided in Jupyter Notebook `./03.interpretation/Vis_IndividualEmbed.ipynb.ipynb` and `./03.interpretation/DeepLIFT.ipynb`.  
+The scPIT interpretability analysis utilizes the DeepLIFT method based on backward propagation, the source code is provided in Jupyter Notebook `./03.interpretation/Vis_IndividualEmbed.ipynb.ipynb` and `./03.interpretation/DeepLIFT.ipynb`.  
