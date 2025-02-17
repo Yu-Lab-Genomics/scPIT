@@ -27,12 +27,14 @@ class TransformerModel(nn.Module):
             num_layers=8,
             norm=nn.LayerNorm(dim)
         )
-        # SLP -> clinical fearures embedding
-        self.meta_fc = nn.Linear(3, 1)
+
         # SLP -> FEV1%pred
         self.fc_out = nn.Linear(dim+1, 1) # logit output 
         # SLP -> disease status
         self.fc_class = nn.Linear(dim + 1, 1)  # logit output 
+        
+        # SLP -> clinical fearures embedding
+        self.meta_fc = nn.Linear(3, 1)
 
         
     def forward(self, cell_matrix, meta, mask):
@@ -64,5 +66,6 @@ class TransformerModel(nn.Module):
         fev1_pred = self.fc_out(combined_embed)
         class_pred = self.fc_class(combined_embed)
 
-        return fev1_pred, class_pred, combined_embed
+        # return fev1_pred, class_pred # training
+        return fev1_pred, class_pred, combined_embed # Vis embedding
         # return fev1_pred # DeepLIFT
