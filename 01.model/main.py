@@ -18,6 +18,7 @@ from tqdm import tqdm
 from scipy import stats
 from sklearn.model_selection import train_test_split
 import sys
+import os
 
 ### script
 from model import TransformerModel
@@ -35,10 +36,10 @@ def main():
     seed2 = 14 # data splitting seed
 
     # seed
-    set_seed(int(seed1))
+    set_seed(2)
 
     # GPU
-    device = torch.device(f'cuda:{6}' if torch.cuda.is_available() else 'cpu')
+    device = torch.device(f'cuda:{5}' if torch.cuda.is_available() else 'cpu')
 
     # model config
     model_config = {
@@ -48,22 +49,22 @@ def main():
 
     # training config
     training_config = {
-        'initial_lr': 0.000003,
-        'batch_size': 24,       
-        'num_epochs': 70,
+        'initial_lr': 0.000006,
+        'batch_size': 12,       
+        'num_epochs': 50,
         'patience':15
     }
 
     # load data set
-    data_path = "101_2981_4118.pth" # .pth file from data preprocessing
-    expr_tensor, expr_mask, disease_tensor, meta_tensor, celltype_tensor = load_data(data_path, device)
-    dataset = SingleCellDataset(expr_tensor, expr_mask, disease_tensor, meta_tensor, celltype_tensor)
+    data_path = "/pool1/liujianhong/prj/20250103_FEV1%pred_Model/00.h5ad/101_2981_4118.pth" # .pth file from data preprocessing
+    expr_tensor, expr_mask, disease_tensor, meta_tensor, celltype_tensor, target_tensor = load_data(data_path, device)
+    dataset = SingleCellDataset(expr_tensor, expr_mask, disease_tensor, meta_tensor, celltype_tensor, target_tensor)
     train_loader, val_loader = create_dataloaders(
         dataset,
         batch_size=training_config["batch_size"],
         train_ratio=0.8,
         bins=6,
-        seed=int(seed2)
+        seed=14
     )
 
     # create model
@@ -88,27 +89,28 @@ def main():
     # optimizer
     optimizer = optim.Adam(model.parameters(), lr=training_config["initial_lr"])
 
-    # tensorboard folder
-    if not os.path.exists("./tensorboard"):
-        os.makedirs("./tensorboard")
+    # # tensorboard folder
+    # if not os.path.exists("./tensorboard"):
+    #     os.makedirs("./tensorboard")
 
     # trainer
     trainer = Trainer(
         model=model,
         train_loader=train_loader,
         test_loader=val_loader,
-        criterion=nn.MSELoss(),
+        regression_criterion=nn.MSELoss(),
+        classification_criterion = nn.BCEWithLogitsLoss(),
         optimizer=optimizer,
         device=device,
-        log_dir="./tensorboard",
-        save_dir="./02.checkpoint",
+        log_dir="/pool1/liujianhong/prj/20250109_scPIT_githubRepositorie/tensorboard",
+        save_dir="/pool1/liujianhong/prj/20250109_scPIT_githubRepositorie/02.checkpoint",
         patience=training_config['patience']
     )
 
     # training
-    cor, epoch = trainer.train(training_config['num_epochs'])
+    cor, epoch ,acc = trainer.train(training_config['num_epochs'])
 
-    print(cor, epoch)
+    print(cor, epoch, acc)
 
 if __name__ == "__main__":
     main()
