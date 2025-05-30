@@ -1,11 +1,21 @@
-
 # scPIT
 
 **Single cell based Phenotype Interpretation Transformer (scPIT)** is a deep learning model with a hybrid architecture designed to predict disease status and FEV1%pred using scRNA-seq profiles and clinical features. This README provides system requirements, installation instructions, a demo guide, and usage details for the scPIT model. Please follow the sections below to set up and run scPIT for predicting disease phenotypes using scRNA-seq data.  
-## Architecture Overview
-scPIT is a hybrid architecture that combines Transformer encoders, multi-layer perceptrons (MLP), and single-layer perceptrons (SLP). The model processes multiple cell input tokens, where each token represents the gene expression features of a single cell. These features are projected into a 128-dimensional embedding space using a MLP. Each cell token is then embedded individually in the Cell Embedding layer, processed through a transformer Encoder, and ultimately pooled to derive a unified initial individual-embedding. Clinical features including age, sex, and BMI are projected into a 1-dimensional feature-embedding space using a SLP, merged with the initial individual-embedding to form the final individual-embedding. Based on the final individual embedding, two SLPs are utilized for regression and classification tasks, respectively, with Mean Squared Error (MSE) and Binary Cross-Entropy with Logits (BCEWithLogits) as the employed loss functions. For detailed model architecture and hyperparameters, please refer to the source code.  
+
+## Table of Contents
+
+- [Architecture Overview](#architecture-overview)
+- [1. System Requirements](#1-system-requirements)
+- [2. Installation Guide](#2-installation-guide)
+- [3. Demo](#3-demo)
+- [4. Instructions for Use](#4-instructions-for-use)
+- [5. Additional Reproduction Instructions](#5-additional-reproduction-instructions)
+- [6. License](#6-license)
 
 ---
+
+## Architecture Overview
+scPIT is a hybrid architecture that combines Transformer encoders, multi-layer perceptrons (MLP), and single-layer perceptrons (SLP). The model processes multiple cell input tokens, where each token represents the gene expression features of a single cell. These features are projected into a 128-dimensional embedding space using a MLP. Each cell token is then embedded individually in the Cell Embedding layer, processed through a transformer Encoder, and ultimately pooled to derive a unified initial individual-embedding. Clinical features including age, sex, and BMI are projected into a 1-dimensional feature-embedding space using a SLP, merged with the initial individual-embedding to form the final individual-embedding. Based on the final individual embedding, two SLPs are utilized for regression and classification tasks, respectively, with Mean Squared Error (MSE) and Binary Cross-Entropy with Logits (BCEWithLogits) as the employed loss functions. For detailed model architecture and hyperparameters, please refer to the source code.  
 
 ## 1. System Requirements
 
@@ -133,14 +143,14 @@ For each shared cell type, the median number of cells across all donors is calcu
 **Step 5: Save Processed Data**  
 All tensors are saved in a dictionary format as a `.pth` file for model input.
 
----
+
 
 ### 5.2 Data Splitting
 
 The dataset is split into training and validation sets using an 80/20 ratio.  
 Due to the limited sample size, this splitting process is embedded directly within the training script. No manual split is required.
 
----
+
 
 ### 5.3 Model Training
 
@@ -150,7 +160,7 @@ Once the preprocessed `.pth` file is ready, model training can be initiated with
 python ./01.model/main.py path_to_Pre-Processing.pth
 ```
 
----
+
 
 ### 5.4 Interpretability Analysis
 scPIT's interpretability module is based on the DeepLIFT algorithm (backpropagation-based feature attribution). The goal is to analyze which genes and clinical features contribute most to the model's decisions.  
@@ -166,7 +176,10 @@ scPIT's interpretability module is based on the DeepLIFT algorithm (backpropagat
 - A trained model checkpoint (./02.checkpoint/model_weights.pth)
 - Input tensors (individual embeddings, clinical features, etc.) prepared from `5.1 Data Pre-Processing`.
 
+
 ## 6. License
 
 This project is licensed under the MIT License.  
 See the [LICENSE](./LICENSE) file for details.
+
+---
