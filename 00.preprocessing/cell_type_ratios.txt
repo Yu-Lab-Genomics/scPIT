@@ -1,0 +1,14 @@
+AT2	0.240291
+Alveolar macrophage	0.024879
+CD4+ T	0.105279
+CD8+ T	0.091019
+Classical monocyte	0.032767
+Interstitial macrophage	0.023058
+Mast	0.014563
+Mature AT1	0.069175
+NK	0.068871
+NKT	0.172027
+Non-classical monocyte	0.020934
+Venous	0.020328
+cDC2	0.028216
+gCap	0.088592

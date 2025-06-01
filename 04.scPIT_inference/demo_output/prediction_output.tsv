@@ -1,0 +1,11 @@
+sample_id	FEV1%pred_Obs.	FEV1%pred_Pred.	DiseaseStatus_Obs.	DiseaseStatus_Pred.
+sample6	-0.848	-1.584	1	1
+sample10	-2.077	-2.187	1	1
+sample7	0.140	-0.401	1	1
+sample9	-0.955	-1.387	1	1
+sample4	-0.311	-0.482	1	1
+sample2	0.917	0.109	1	0
+sample3	0.106	0.413	0	0
+sample5	0.882	0.281	0	0
+sample1	1.025	0.283	0	0
+sample8	1.122	0.379	0	0
